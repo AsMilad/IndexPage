@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dioramio — Coming Soon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0b;
+            --bg-subtle: #111113;
+            --text-primary: #e8e6e1;
+            --text-muted: #6b6965;
+            --accent: #c9a46c;
+            --accent-dim: rgba(201, 164, 108, 0.12);
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'DM Sans', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Grain overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        /* Subtle radial glow */
+        .glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--accent-dim) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            animation: breathe 8s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+            0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        /* Decorative lines */
+        .line-left, .line-right {
+            position: fixed;
+            width: 1px;
+            height: 160px;
+            background: linear-gradient(to bottom, transparent, var(--accent), transparent);
+            opacity: 0.2;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .line-left { left: 8%; animation: fadeSlide 3s ease-out forwards; }
+        .line-right { right: 8%; animation: fadeSlide 3s ease-out 0.3s forwards; }
+
+        @keyframes fadeSlide {
+            from { opacity: 0; height: 0; }
+            to { opacity: 0.2; height: 160px; }
+        }
+
+        /* Main content */
+        .container {
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            padding: 2rem;
+        }
+
+        .brand {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            letter-spacing: -0.02em;
+            line-height: 1;
+            color: var(--text-primary);
+            animation: revealUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+        }
+
+        .brand span {
+            color: var(--accent);
+        }
+
+        .divider {
+            width: 48px;
+            height: 1px;
+            background: var(--accent);
+            margin: 1.8rem auto;
+            animation: expandLine 1s ease-out 0.6s forwards;
+            transform: scaleX(0);
+        }
+
+        @keyframes expandLine {
+            to { transform: scaleX(1); }
+        }
+
+        .tagline {
+            font-size: clamp(0.75rem, 2vw, 0.85rem);
+            font-weight: 300;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            animation: revealUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+            opacity: 0;
+        }
+
+        .domain {
+            margin-top: 3rem;
+            font-size: 0.8rem;
+            font-weight: 400;
+            color: var(--text-muted);
+            letter-spacing: 0.15em;
+            animation: revealUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards;
+            opacity: 0;
+        }
+
+        .domain a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+
+        .domain a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        @keyframes revealUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Corner accents */
+        .corner {
+            position: fixed;
+            width: 24px;
+            height: 24px;
+            border-color: var(--accent);
+            border-style: solid;
+            border-width: 0;
+            opacity: 0;
+            animation: cornerFade 1.5s ease-out 1.2s forwards;
+        }
+
+        .corner--tl { top: 2rem; left: 2rem; border-top-width: 1px; border-left-width: 1px; }
+        .corner--tr { top: 2rem; right: 2rem; border-top-width: 1px; border-right-width: 1px; }
+        .corner--bl { bottom: 2rem; left: 2rem; border-bottom-width: 1px; border-left-width: 1px; }
+        .corner--br { bottom: 2rem; right: 2rem; border-bottom-width: 1px; border-right-width: 1px; }
+
+        @keyframes cornerFade {
+            to { opacity: 0.3; }
+        }
+    </style>
+</head>
+<body>
+    <div class="glow"></div>
+    <div class="line-left"></div>
+    <div class="line-right"></div>
+
+    <div class="corner corner--tl"></div>
+    <div class="corner corner--tr"></div>
+    <div class="corner corner--bl"></div>
+    <div class="corner corner--br"></div>
+
+    <div class="container">
+        <h1 class="brand">Dioram<span>io</span></h1>
+        <div class="divider"></div>
+        <p class="tagline">Something great is being built</p>
+        <p class="domain"><a href="https://dioram.io">dioram.io</a></p>
+    </div>
+</body>
+</html>
