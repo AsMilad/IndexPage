@@ -151,6 +151,59 @@
             border-bottom-color: var(--accent);
         }
 
+        /* Visitor counter */
+        .visitor-counter {
+            margin-top: 2.5rem;
+            font-size: 0.7rem;
+            font-weight: 300;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            animation: revealUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1.2s forwards;
+            opacity: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+        }
+
+        .visitor-counter .dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--accent);
+            opacity: 0.6;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+
+        .visitor-count {
+            color: var(--accent);
+            font-weight: 400;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+        }
+
+        .last-visit {
+            margin-top: 0.8rem;
+            font-size: 0.65rem;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            opacity: 0;
+            animation: revealUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1.5s forwards;
+        }
+
+        .last-visit-value {
+            color: var(--text-muted);
+            opacity: 0.7;
+        }
+
         @keyframes revealUp {
             from {
                 opacity: 0;
@@ -199,6 +252,62 @@
         <div class="divider"></div>
         <p class="tagline">Something great is being built</p>
         <p class="domain"><a href="https://dioram.io">dioram.io</a></p>
+
+        <div class="visitor-counter">
+            <span class="dot"></span>
+            <span>Visitors</span>
+            <span class="visitor-count" id="visitor-count">—</span>
+        </div>
+        <p class="last-visit">
+            Last visit · <span class="last-visit-value" id="last-visit-time">—</span>
+        </p>
     </div>
+
+    <script>
+        (function() {
+            var domain = 'dioram.io';
+            var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            var pagePath = window.location.pathname;
+            var pageTitle = document.title;
+            var referrer = document.referrer;
+
+            fetch('https://visitor.6developer.com/visit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    domain: domain,
+                    timezone: timezone,
+                    page_path: pagePath,
+                    page_title: pageTitle,
+                    referrer: referrer
+                })
+            })
+            .then(function(response) { return response.json(); })
+            .then(function(data) {
+                var countEl = document.getElementById('visitor-count');
+                if (countEl && data.totalCount !== undefined) {
+                    countEl.textContent = data.totalCount.toLocaleString();
+                }
+
+                // Show current visit date and time
+                var timeEl = document.getElementById('last-visit-time');
+                if (timeEl) {
+                    var now = new Date();
+                    var options = {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: false
+                    };
+                    timeEl.textContent = now.toLocaleDateString('en-GB', options);
+                }
+            })
+            .catch(function(error) {
+                console.error('Visitor counter error:', error);
+            });
+        })();
+    </script>
 </body>
 </html>
