@@ -268,8 +268,7 @@
 
     <script>
         (function() {
-    // Hit counter
-    fetch('https://counterapi.dev/api/dioramio/visits/up')
+    fetch('https://api.counterapi.dev/v1/dioramio/visits/up')
         .then(function(response) { return response.json(); })
         .then(function(data) {
             var countEl = document.getElementById('visitor-count');
@@ -294,6 +293,14 @@
             console.error('Visitor counter error:', error);
             var countEl = document.getElementById('visitor-count');
             if (countEl) countEl.textContent = '✦';
+            var timeEl = document.getElementById('last-visit-time');
+            if (timeEl) {
+                var now = new Date();
+                timeEl.textContent = now.toLocaleDateString('en-GB', {
+                    year: 'numeric', month: 'short', day: 'numeric',
+                    hour: '2-digit', minute: '2-digit', hour12: false
+                });
+            }
         });
 })();
     </script>
