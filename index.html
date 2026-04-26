@@ -154,7 +154,7 @@
             border-bottom-color: var(--accent);
         }
 
-        /* Visitor counter */
+        /* Established badge */
         .visitor-counter {
             margin-top: 2.5rem;
             font-size: 0.7rem;
@@ -182,13 +182,6 @@
         @keyframes pulse {
             0%, 100% { opacity: 0.3; }
             50% { opacity: 0.8; }
-        }
-
-        .visitor-count {
-            color: var(--accent);
-            font-weight: 400;
-            font-size: 0.75rem;
-            letter-spacing: 0.15em;
         }
 
         .last-visit {
@@ -256,25 +249,24 @@
         <p class="tagline">Something great is being built</p>
         <p class="domain"><a href="https://dioram.io">dioram.io</a></p>
 
-        <<div class="visitor-counter">
-    <span class="dot"></span>
-    <span>Visitors</span>
-    <span class="visitor-count"><img src="https://counterapi.com/counter.svg?ns=dioramio&action=visit&key=homepage&label=&color=c9a46c&readOnly=false" alt="visitors" style="height:14px; vertical-align:middle; opacity:0.9;"></span>
-</div>
-<p class="last-visit">
-    Last visit · <span class="last-visit-value" id="last-visit-time">—</span>
-</p>
+        <div class="visitor-counter">
+            <span class="dot"></span>
+            <span>Est. MMXXVI</span>
+        </div>
+        <p class="last-visit">
+            <span class="last-visit-value" id="last-visit-time"></span>
+        </p>
     </div>
 
     <script>
-    var timeEl = document.getElementById('last-visit-time');
-    if (timeEl) {
-        var now = new Date();
-        timeEl.textContent = now.toLocaleDateString('en-GB', {
-            year: 'numeric', month: 'short', day: 'numeric',
-            hour: '2-digit', minute: '2-digit', hour12: false
-        });
-    }
-</script>
+        var timeEl = document.getElementById('last-visit-time');
+        if (timeEl) {
+            var now = new Date();
+            timeEl.textContent = now.toLocaleDateString('en-GB', {
+                year: 'numeric', month: 'short', day: 'numeric',
+                hour: '2-digit', minute: '2-digit', hour12: false
+            });
+        }
+    </script>
 </body>
 </html>
