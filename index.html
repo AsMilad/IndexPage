@@ -256,51 +256,25 @@
         <p class="tagline">Something great is being built</p>
         <p class="domain"><a href="https://dioram.io">dioram.io</a></p>
 
-        <div class="visitor-counter">
-            <span class="dot"></span>
-            <span>Visitors</span>
-            <span class="visitor-count" id="visitor-count">—</span>
-        </div>
-        <p class="last-visit">
-            Last visit · <span class="last-visit-value" id="last-visit-time">—</span>
-        </p>
+        <<div class="visitor-counter">
+    <span class="dot"></span>
+    <span>Visitors</span>
+    <span class="visitor-count"><img src="https://counterapi.com/counter.svg?ns=dioramio&action=visit&key=homepage&label=&color=c9a46c&readOnly=false" alt="visitors" style="height:14px; vertical-align:middle; opacity:0.9;"></span>
+</div>
+<p class="last-visit">
+    Last visit · <span class="last-visit-value" id="last-visit-time">—</span>
+</p>
     </div>
 
     <script>
-        (function() {
-    // Using counterapi.com — supports CORS for browser usage
-    fetch('https://counterapi.com/api/dioramio/visit/homepage?readOnly=false', {
-        method: 'GET'
-    })
-    .then(function(response) { return response.json(); })
-    .then(function(data) {
-        var countEl = document.getElementById('visitor-count');
-        if (countEl && data.value !== undefined) {
-            countEl.textContent = data.value.toLocaleString();
-        }
-        var timeEl = document.getElementById('last-visit-time');
-        if (timeEl) {
-            var now = new Date();
-            timeEl.textContent = now.toLocaleDateString('en-GB', {
-                year: 'numeric', month: 'short', day: 'numeric',
-                hour: '2-digit', minute: '2-digit', hour12: false
-            });
-        }
-    })
-    .catch(function(error) {
-        console.error('Visitor counter error:', error);
-        var countEl = document.getElementById('visitor-count');
-        if (countEl) countEl.textContent = '✦';
-        var timeEl = document.getElementById('last-visit-time');
-        if (timeEl) {
-            var now = new Date();
-            timeEl.textContent = now.toLocaleDateString('en-GB', {
-                year: 'numeric', month: 'short', day: 'numeric',
-                hour: '2-digit', minute: '2-digit', hour12: false
-            });
-        }
-    });
-})();
-    </script>
+    var timeEl = document.getElementById('last-visit-time');
+    if (timeEl) {
+        var now = new Date();
+        timeEl.textContent = now.toLocaleDateString('en-GB', {
+            year: 'numeric', month: 'short', day: 'numeric',
+            hour: '2-digit', minute: '2-digit', hour12: false
+        });
+    }
+</script>
 </body>
 </html>
